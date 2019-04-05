@@ -14,4 +14,4 @@ const os = require('os');
     }
 
     console.log('System is checked successfully.')
-})()
+})();
