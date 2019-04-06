@@ -3,9 +3,11 @@ const axios = require('axios')
 
 const app = express()
 
-app.set('x-powered-by', false)
+app.disable('x-powered-by')
 
-app.set('strict routing', true)
+app.enable('trust proxy')
+
+app.enable('strict routing')
 
 app.enable('case sensitive routing')
 
@@ -17,6 +19,10 @@ app.get('/', (req, res) => {
 app.get('/users', (req, res) => {
     getUsers()
         .then(response => {
+            res.setHeader('Last-Mofified', new Date())
+            res.setHeader('Cache-Control', 'private, max-age=86400')
+            res.setHeader('If-Modified-Since', new Date())
+            res.setHeader('Link', '<http://localhost:3000/users> rel="first"')
             res.write(JSON.stringify(response.data), "utf-8");
             res.end()
         })
