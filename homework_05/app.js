@@ -1,7 +1,7 @@
-const express = require('express')
-const axios = require('axios')
+const express = require('express');
+const axios = require('axios');
 
-const app = express()
+const app = express();
 
 app.disable('x-powered-by')
 
@@ -9,12 +9,14 @@ app.enable('trust proxy')
 
 app.enable('strict routing')
 
-app.enable('case sensitive routing')
+app.enable('trust proxy');//proxy forwarding
+
+app.enable('case sensitive routing');//capital letter and small letters different
 
 app.get('/', (req, res) => {
-    res.send('welcome')
+    res.send('welcome');
     res.end()
-})
+});
 
 app.get('/users', (req, res) => {
     getUsers()
@@ -29,7 +31,7 @@ app.get('/users', (req, res) => {
         .catch(error => {
             console.log(error);
         })
-})
+});
 
 async function getUsers() {
     try {
@@ -39,4 +41,4 @@ async function getUsers() {
     }
 }
 
-app.listen(3000, () => console.error('listening to 3000'))
+app.listen(3000, () => console.error('listening to 3000'));

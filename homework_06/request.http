@@ -1,0 +1,9 @@
+post http://localhost:3000/grades HTTP/1.1
+content-type: application/json
+
+{ 
+    "id": 0,
+    "name": "robel nigussie", 
+    "course": "MWA", 
+    "grade": "A+"
+}
