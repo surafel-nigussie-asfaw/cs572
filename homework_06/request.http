@@ -7,3 +7,7 @@ content-type: application/json
     "course": "MWA", 
     "grade": "A+"
 }
+
+get http://localhost:3000/grades HTTP/1.1
+
+get http://localhost:3000/grades/1 HTTP/1.1
