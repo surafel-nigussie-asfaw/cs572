@@ -31,7 +31,7 @@ app.post('*', function (req, resp, next) {
     }
     return next()
 })
-  
+
 //routing
 app.get('/grades/:id', (req, resp) => {
     resp.status(200).send(grade_array.find(x => x.id === parseInt(req.params.id)))
@@ -51,8 +51,14 @@ app.post('/grades', (req, resp) => {
     resp.end()
 })
 
-app.delete('/grades', (req, resp) => {
-    resp.status(200).send('delete')
+app.delete('/grades/:id', (req, resp) => {
+    console.log(parseInt(req.params.id))
+    try {
+        grade_array = grade_array.filter(x => x.id === parseInt(req.params.id))
+    } catch (e) {
+        resp.status(500).send('Failed while removing item.')
+    }
+    resp.status(200).send('Successfully deleted.')
     resp.end()
 })
 
