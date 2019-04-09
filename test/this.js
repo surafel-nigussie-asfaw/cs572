@@ -63,7 +63,7 @@ let count = 20
 const counter = {
 	count: 10,
   increment(){
-  	setInterval(() => console.log(`${++his.count}`))
+  	setInterval(() => console.log(`${++this.count}`))
   }
 }
 counter.increment()//10, 11
