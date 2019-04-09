@@ -16,7 +16,11 @@ async function getData() {
                 client.close()
             })
 
-            await collection.find({ name: 'abel' }, { sort: [['name', 'ascending']], limit: 5, skip: 5 }).project({ age: 0 }).toArray(function (err, docArr) {
+            await collection.find({ name: 'abel' })
+            .sort([name, 1])
+            .limit(5)
+            .skip(5)
+            .project({ age: 0 }).toArray(function (err, docArr) {
                 console.log(">>>Find: ", docArr)
                 client.close()
             })
