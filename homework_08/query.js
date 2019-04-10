@@ -101,17 +101,86 @@ function q() {
         //     console.log("question 15", docArr)
         // })
 
-        const query16 = {
-            "grades.score": {$lte: 10}
-        }
-        const projection16 = {
-            restaurant_id: 1,
-            district: 1,
-            cuisine: 1
-        }
-        collection.find(query16).project(projection16).toArray((err, docArr) => {
-            console.log("question 16", docArr)
-        })
+        // const query16 = {
+        //     "grades.score": {$lte: 10}
+        // }
+        // const projection16 = {
+        //     restaurant_id: 1,
+        //     district: 1,
+        //     cuisine: 1
+        // }
+        // collection.find(query16).project(projection16).toArray((err, docArr) => {
+        //     console.log("question 16", docArr)
+        // // })
+
+        // const query17 = {
+        //     $and: [{ "address.coord.1": { $gt: 42 } }, { "address.coord.1": { $lt: 52 } }]
+        // }
+        // const projection17 = {
+        //     restaurant_id: 1,
+        //     name: 1,
+        //     address: 1
+        // }
+        // collection.find(query17).project(projection17).toArray((err, docArr) => {
+        //     console.log("question 17", docArr)
+        // // })
+
+        // const options18 = {
+        //     name: 1
+        // }
+
+        // collection.find().sort(options18).toArray((err, docArr) => {
+        //     console.log("question 18", docArr)
+        // })
+
+        // const options19 = {
+        //     name: -1
+        // }
+
+        // collection.find().sort(options19).toArray((err, docArr) => {
+        //     console.log("question 19", docArr)
+        // // })
+
+        // const options20 = {
+        //     cuisine: 1,
+        //     district: -1
+        // }
+
+        // collection.find().sort(options20).toArray((err, docArr) => {
+        //     console.log("question 20", docArr)
+        // // })
+
+        // const query21 = {
+        //     "address.street": { $exists: true }
+        // }
+
+        // collection.find(query21).toArray((err, docArr) => {
+        //     console.log("question 21", docArr)
+        // // })
+
+        // const query22 = {
+        //     "address.coord": { $type: 'double' }
+        // }
+
+        // collection.find(query22).toArray((err, docArr) => {
+        //     console.log("question 22", docArr)
+        // })
+
+        // const query23 = {
+        //     name: { $regex: /^Mad/ }
+        // }
+
+        // const projection = {
+        //     name: 1,
+        //     district: 1,
+        //     "address.coord": 1,
+        //     cuisine: 1
+        // }
+
+        // collection.find(query23).project(projection).toArray((err, docArr) => {
+        //     console.log("question 23", docArr[0])
+        // })
     })
 }
-q() 
+q()
+
