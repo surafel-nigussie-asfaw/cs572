@@ -9,7 +9,7 @@ let counter = {
 let test = counter.increment;
 test();
 
-//function call
+//function call 1
 function getName(name){
   this.name = name;
 }
@@ -18,7 +18,7 @@ const person = getName('Abebe');
 console.log(person)//Undefined
 console.log(window.name)//Abebe
 
-//constructor call
+//constructor call 2
 function Person(name){
 	console.log(this)//{}
   this.name = name;
@@ -29,7 +29,7 @@ let person = new Person('Abebe')
 console.log(person.name)//Abebe
 console.log(window.name)//undefined
 
-//method call
+//method call 3
 var count = 10;
 var obj = {
 	count: 20,
