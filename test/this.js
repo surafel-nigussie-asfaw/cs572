@@ -14,8 +14,8 @@ function getName(name){
   this.name = name;
 }
 
-const person = getName('Abebe');
-console.log(person)//Undefined
+const person = getName('Abebe'); //setting to person
+console.log(person.name)//Undefined
 console.log(window.name)//Abebe
 
 //constructor call 2
