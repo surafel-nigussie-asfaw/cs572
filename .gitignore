@@ -7,4 +7,7 @@ homework_06/node_modules/
 homework_07/node_modules/
 homework_07/secret_message/node_modules/
 homework_08/node_modules/
+
 \.idea/
+homework_12/*
+!homework_12/app.zip
