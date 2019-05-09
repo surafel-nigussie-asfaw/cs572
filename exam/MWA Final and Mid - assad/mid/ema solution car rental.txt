@@ -1,0 +1,240 @@
+const express = require('express');
+const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb')
+
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//db connection
+const url = 'mongodb://localhost:27017';
+
+let db;
+
+MongoClient.connect(url, (err, client) => {
+
+    if (err) throw err;
+
+    db = client.db('rental');
+
+})
+
+
+//get for a specifc car, get latest rent date , get latest end mileage 
+app.get('/cars/:id', (req, resp) => {
+
+    getPromise(req.params.id).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+
+
+//check if a client have rental history for any car for a specific liscence id, but do not include current reservation record, get all reservation records for that person.
+
+
+
+app.get('/cars/:d_id/:r_id', (req, resp) => {
+
+    getRentalHistory(req.params.d_id, req.params.r_id).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+//get car rental_rate for the current reservation_id
+app.get('/rate/:r_id', (req, resp) => {
+
+    getRate(req.params.r_id).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+
+app.get('/cars/:d_id/:r_id', (req, resp) => {
+
+    getRentalHistory(req.params.d_id, req.params.r_id).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+//add reservation_record for a specific car  
+app.post('/reserve/:c_id', (req, resp) => {
+
+    addReservation(req.params.c_id, req.body).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+//update rental_details - modify one of the array elements (update the reservation record by reservation id)
+app.patch('/update/:c_id/:r_id/:price', (req, resp) => {
+
+    updateReservation(req.params.c_id, req.params.r_id, req.params.price).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+//delete reservation_record           
+app.delete('/delete/:c_id/:r_id', (req, resp) => {
+
+    deleteReservation(req.params.c_id, req.params.r_id).then(data => resp.send(data))
+        .catch(err => console.log(err));
+
+})
+
+// prmoises
+
+const getPromise = (carID) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+
+            db.collection('car').aggregate([{ $match: { '_id': new ObjectId(carID) } }, { $unwind: "$rental_details" },
+            { $sort: { "rental_details.rental_end_date": -1 } },
+            { $group: { _id: { "car_id": "$_id", "car_plate": "$plate" }, "end_mileage": { $first: "$rental_details.end_mileage" } } },
+            { $project: { _id: 0, "car_plate": "$_id.car_plate", "end_mileage": 1 } }]).get((err, data) => {
+                if (err) reject('error')
+                resolve(data);
+            })
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+
+
+
+const getRentalHistory = (drivLicense, reservId) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+
+
+            db.collection('car').find({ rental_details: { $elemMatch: { reservation_id: { $ne: reservId }, driver_license: drivLicense } } }).toArray((err, data) => {
+                if (err) reject(err);
+                resolve(data);
+
+            });
+
+
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+
+
+const getRate = (reservId) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+
+
+            db.collection('car').aggregate([{ $match: { 'rental_details.reservation_id': reservId } }, { $project: { '_id': 0, 'rate': '$rate_per_day' } }]).get((err, data) => {
+                if (err) reject(err)
+                resolve(data);
+            })
+
+
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+//add reservation_record for a specific car
+
+const addReservation = (carId, reserv) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+
+            db.collection('car').update({ '_id': new ObjectId(carId) }, { $push: { rental_details: reserv } }, (err, updated) => {
+                if (err) reject(err)
+                resolve(updated);
+
+            });
+
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+
+
+//update rental_details - modify one of the array elements (update the reservation record by reservation id)
+const updateReservation = (carId, reservId, price) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+            db.collection('car').update(
+                { "_id": new ObjectId(carId), "rental_details.reservation_id": reservId },
+                {
+                    $set: {
+
+                        "rental_details.$.rental_price": price
+                    }
+                }
+                , (err, updated) => {
+                    if (err) reject(err)
+                    resolve(updated);
+
+                });
+
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+
+
+// delete reservation_record
+
+const deleteReservation = (carId, reservId) => {
+
+    return new Promise(function (resolve, reject) {
+        if (db) {
+            db.collection('car').update(
+                { "_id": new ObjectId(carId), "rental_details.reservation_id": reservId },
+                {
+                    $unset: {
+                        "rental_details.$": 1
+                    }
+                }
+
+                , (err, updated) => {
+                    if (err) reject(err)
+                    resolve(updated);
+
+                });
+
+        }
+        else {
+            reject('error connecting to db');
+        }
+
+
+    })
+
+}
+
+app.listen(3000, () => console.log('server started on port 3000....'));

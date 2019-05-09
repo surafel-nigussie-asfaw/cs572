@@ -1,0 +1,60 @@
+{
+        "_id" : ObjectId("5b1d5003c2c29d5c387b880a"),
+        "model" : "Toyota",
+        "version" : "Camry",
+        "plate" : "XXCCVV",
+        "status" : 1,
+        "rate_per_day" : 50,
+        "rental_details" : [
+                {
+                        "reservation_id" : "A34567",
+                        "driver_name" : "Asaad",
+                        "driver_license" : "A3333333",
+                        "rental_start_date" : "2018-04-29T16:18:35.634Z",
+                        "rental_end_date" : "2018-05-02T16:18:35.634Z",
+                        "start_mileage" : 11000,
+                        "end_mileage" : 11500,
+                        "rental_price" : 269
+                },
+                {
+                        "reservation_id" : "A2345678",
+                        "driver_name" : "Ali",
+                        "driver_license" : "A334433",
+                        "rental_start_date" : "2018-05-05T16:18:35.634Z",
+                        "rental_end_date" : "2018-05-10T16:18:35.634Z",
+                        "start_mileage" : 11550,
+                        "end_mileage" : 11900,
+                        "rental_price" : 117
+                }
+        ]
+}
+{
+        "_id" : ObjectId("5b1d50fac2c29d5c387b8816"),
+        "model" : "Honda",
+        "version" : "Civic",
+        "plate" : "DDDDDBBB",
+        "status" : 1,
+        "rate_per_day" : 70,
+        "rental_details" : [
+                {
+                        "reservation_id" : "A388887",
+                        "driver_name" : "Hoda",
+                        "driver_license" : "B678usa",
+                        "rental_start_date" : "2018-04-11T16:18:35.634Z",
+                        "rental_end_date" : "2018-04-13T16:18:35.634Z",
+                        "start_mileage" : 8900,
+                        "end_mileage" : 1010,
+                        "rental_price" : 600
+                },
+                {
+                        "reservation_id" : "A2dd2218",
+                        "driver_name" : "Mady",
+                        "driver_license" : "A3lkkaaa",
+                        "rental_start_date" : "2018-05-11T16:18:35.634Z",
+                        "rental_end_date" : "2018-05-19T16:18:35.634Z",
+                        "start_mileage" : 1050,
+                        "end_mileage" : 2500,
+                        "rental_price" : 113
+                }
+        ]
+}
